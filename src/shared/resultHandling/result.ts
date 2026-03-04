@@ -1,3 +1,5 @@
+import ErrorCodes from "./errorCodes";
+
 class ResultModel {
     codeStatus: number;
     success: boolean;
@@ -22,20 +24,20 @@ export const Result = (codeStatus, success, msg, data = null, returnCode = null,
 
 export const successExecute = (res, msg, data, codeStatus = 200, returnCode = null, error = null) => {
     let result = new ResultModel(codeStatus, true, msg, data, returnCode, error);
-    return res.status(result.codeStatus).json(result);
+    res.status(result.codeStatus).json(result);
 }
 
 export const errorExecute = (res, msg, error, data = null, codeStatus = 400, returnCode = null) => {
     let result = new ResultModel(codeStatus, false, msg, data, returnCode, error);
-    return res.status(result.codeStatus).json(result);
+    res.status(result.codeStatus).json(result);
 }
 
 export const unknownError = (res, error) => {
     let result = new ResultModel(500, false, "An unknown error occurred", null, null, error.message);
-    return res.status(result.codeStatus).json(result);
+    res.status(result.codeStatus).json(result);
 }
 
 export const wrongRoute = (res) => {
-    let result = new ResultModel(404, false, "Route not found", null, null, null);
-    return res.status(result.codeStatus).json(result);
+    let result = new ResultModel(404, false, ErrorCodes.general.routeNotFound.msg, "Please check the api route carefully.", ErrorCodes.general.routeNotFound.returnCode, null);
+    res.status(result.codeStatus).json(result);
 }
