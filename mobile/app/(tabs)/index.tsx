@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { useRouter } from 'expo-router';
 
 export default function App() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const generateAndRegister = async () => {
     setLoading(true);
@@ -11,7 +13,6 @@ export default function App() {
     const randomId = Math.floor(1000 + Math.random() * 9000);
     const generatedUsername = `User_${randomId}`; // Example: User_5829
     const generatedPassword = Math.random().toString(36).slice(-10); // Random 10-char string
-
     try {
       // 2. Call your friend's API using the IP address
       const response = await fetch("http://192.168.0.245:12345/foodsystem/api/v1/account/create-account", {
@@ -46,19 +47,26 @@ export default function App() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Food Order System</Text>
-      <Text style={styles.subtitle}>Click below to get your auto-generated username and password.</Text>
+      <View style={styles.container}>
+        <Text style={styles.title}>Food Order System</Text>
+        <Text style={styles.subtitle}>Click below to get your auto-generated username and password.</Text>
 
-      {loading ? (
-        <ActivityIndicator size="large" color="#007AFF" />
-      ) : (
-        <TouchableOpacity style={styles.button} onPress={generateAndRegister}>
-          <Text style={styles.buttonText}>Generate My Account</Text>
+        {loading ? (
+          <ActivityIndicator size="large" color="#007AFF" />
+        ) : (
+          <TouchableOpacity style={styles.button} onPress={generateAndRegister}>
+            <Text style={styles.buttonText}>Generate My Account</Text>
+          </TouchableOpacity>
+        )}
+
+        <TouchableOpacity onPress={() => router.push('/login')} style={styles.link}>
+          <Text style={styles.linkText}>Already have an 
+            account? Login here</Text>
         </TouchableOpacity>
-      )}
-    </View>
-  );
+        
+      </View>
+    );
+  
 }
 
 const styles = StyleSheet.create({
@@ -96,5 +104,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: '600',
+  },
+  link: {
+    marginTop: 20, // Adds space between the buttons
+    padding: 10,
+  },
+  linkText: {
+    color: '#007AFF',
+    fontSize: 16,
+    textDecorationLine: 'underline', // Makes it look clickable
   },
 });
