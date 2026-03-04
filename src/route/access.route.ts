@@ -6,5 +6,6 @@ let subName = "account"
 const router = express.Router();
 
 router.post(`/${subName}/create-account`, AccountController.createAccount);
+router.post(`/${subName}/login`, AccountController.login);
 
 export default router;

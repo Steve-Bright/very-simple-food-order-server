@@ -3,6 +3,10 @@ const SuccessCodes = {
         created: {
             message: "ACCOUNT_CREATED_SUCCESS",
             returnCode: "ACC_SUC_001"
+        },
+        login: {
+            message: "LOGIN_SUCCESS",
+            returnCode: "ACC_SUC_002"
         }
     }
 }
